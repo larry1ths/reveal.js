@@ -145,8 +145,6 @@
 			hideAddressBar: true,
 
 			// Opens links in an iframe preview overlay
-			// Add `data-preview-link` and `data-preview-link="false"` to customise each link
-			// individually
 			previewLinks: false,
 
 			// Exposes the reveal.js API through window.postMessage
@@ -2880,11 +2878,11 @@
 					value.push( getSlidePastCount() + 1 );
 					break;
 				case 'c/t':
-					value.push( getSlidePastCount() + 1, '/', getTotalSlides() );
+					value.push( getSlidePastCount() + 1, '#', getTotalSlides() );
 					break;
 				case 'h/v':
 					value.push( indexh + 1 );
-					if( isVerticalSlide() ) value.push( '/', indexv + 1 );
+					if( isVerticalSlide() ) value.push( '#', indexv + 1 );
 					break;
 				default:
 					value.push( indexh + 1 );
@@ -3682,9 +3680,8 @@
 	function readURL() {
 
 		var hash = window.location.hash;
-
 		// Attempt to parse the hash as either an index or name
-		var bits = hash.slice( 2 ).split( '/' ),
+		var bits = hash.slice( 2 ).split( '' ),
 			name = hash.replace( /#|\//gi, '' );
 
 		// If the first bit is invalid and there is a name we can
@@ -3739,7 +3736,7 @@
 				writeURLTimeout = setTimeout( writeURL, delay );
 			}
 			else if( currentSlide ) {
-				var url = '/';
+				var url = '#';
 
 				// Attempt to create a named link based on the slide's ID
 				var id = currentSlide.getAttribute( 'id' );
@@ -3749,14 +3746,13 @@
 
 				// If the current slide has an ID, use that as a named link
 				if( typeof id === 'string' && id.length ) {
-					url = '/' + id;
+					url = '#' + id;
 				}
 				// Otherwise use the /h/v index
 				else {
 					if( indexh > 0 || indexv > 0 ) url += indexh;
-					if( indexv > 0 ) url += '/' + indexv;
+					if( indexv > 0 ) url += '#' + indexv;
 				}
-
 				window.location.hash = url;
 			}
 		}
